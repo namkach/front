@@ -1,8 +1,15 @@
-import React, {Component} from 'react';
-import { findtopic,publishPost,getAllPosts } from '../api'
+import React from 'react';
+import { findtopic, publishPost, getAllPosts, findcomment } from '../api'
 import Header from '../HeaderFooter/Header';
-import { Button } from 'semantic-ui-react'
+import Footer from '../HeaderFooter/Footer';
+import { Button, Grid, Divider, Segment } from 'semantic-ui-react'
+import myImage from '../Pic/n.jpg';
 
+const sectionStyle = {
+  width: "100%",
+  height: "1100",
+  backgroundImage: "url(" + myImage + ")"
+};
 
 class Topic extends React.Component {
 
@@ -10,16 +17,14 @@ class Topic extends React.Component {
     content: '',
     author: '',
     post: [],
-    allPosts:[]
+    allPosts: []
   }
-  
-  
 
   getUser = () => {
     findtopic().then(post => this.setState({ post }))
       .catch(err => console.error('Something went wrong.'))
 
-      
+
 
   }
   componentDidMount() { // when render finish call is func
@@ -30,16 +35,16 @@ class Topic extends React.Component {
   submitPost = event => {
     event.preventDefault()
 
-    publishPost(this.state.post._id, this.state.content,localStorage.getItem('username'))
-      .then(() => { this.getPosts()  })
-      
+    publishPost(this.state.post._id, this.state.content, localStorage.getItem('username'))
+      .then(() => { this.getPosts() })
+
   }
 
   getPosts = () => {
-    getAllPosts()
-    .then(data => this.setState({ allPosts: data }))
-    .catch(err => console.error('Something went wrong.'))
-      console.log("ccdffddd")
+    findcomment()
+      .then(data => this.setState({ allPosts: data }))
+      .catch(err => console.error('Something went wrong.'))
+    console.log("ccdffddd")
   }
 
   onTextChange = event => {
@@ -53,51 +58,86 @@ class Topic extends React.Component {
     console.log(this.state)
     const posts = this.state.allPosts
     return (
-      
+ 
       <div>
+        <div style={sectionStyle} >
         < Header />
-        <div role="list" class="ui divided relaxed list">
-          <div class="ui horizontal segments">
-            <div class="ui segment">
+        <Grid columns={3}>
+          <Grid.Row>
+            <Grid.Column width={3}>
+            </Grid.Column>
+            <Grid.Column width={10}>
 
-              <li class="header">Title :{this.state.post.title} </li><br />
-              <li class="header">Content :{this.state.post.content} </li><br />
-              <li class="header">Author :{this.state.post.author} </li><br />
-              
-            </div>
-            
-          </div>
-
-
-        </div>
-        <br></br>
-        {posts.length >= 0 ?
-          posts.map(post =>
-            <div className='ui segment'>
-              <p>Published by : {post.author}</p>
               <div>
-                Title : {post.title}
+                <div class="ui segment">
+                  <div class="ui relaxed divided list">
+                    <div class="item">
+                      <div class="ui basic segment">
+                        <li class="header" style={{ fontSize: 30, padding: '10px 10px 10px 50px' }}>Title :{this.state.post.title} </li>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <form className='ui form' style={{fontSize: 20}}>
+                        <li class="header" style={{ padding: '10px 10px 10px 50px' }}>{this.state.post.content} </li>
+                      </form>
+
+                    </div>
+                    <div class="item">
+                      <form className='ui form' >
+                        <li class="header" style={{ padding: '10px 0px 0px 50px' }}>Author :{this.state.post.author} </li>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                {post.content}
-              </div>
-            </div>
-          )
-          : null
-        }
-        <form class='ui form' onSubmit={this.submitPost}>
-        <div className='field'>
-          </div>
-          <div className='field'>
-            <textarea
-              name='content'
-              placeholder='Write your post...'
-              value={this.state.content}
-              onChange={this.onTextChange} />
-            <button className='ui primary button' style={{ margin: '16px 0' }}>Publish Post</button>
-          </div>
-        </form>
+
+
+
+              <br></br>
+              {posts.length >= 0 ?
+                posts.map(post =>
+                  <div class="ui segment">
+                    <div class="ui relaxed divided list">
+
+
+                      <div class="item" style={{ padding: '10px 10px 10px 50px'}}>
+                        <form className='ui form' style={{fontSize: 20}}>
+                          <br />{post.content}<br /><br />
+                        </form>
+
+
+                      </div>
+                      <div class="item" style={{ padding: '10px 0px 0px 50px' }}>
+                        <form className='ui form' >
+                          <p>User : {post.author}</p>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+
+                )
+                : null
+              }
+              <form class='ui form' onSubmit={this.submitPost}>
+                <div className='field'>
+                </div>
+                <div className='field'>
+                  <textarea
+                    name='content'
+                    placeholder='Write your post...'
+                    value={this.state.content}
+                    onChange={this.onTextChange} />
+                  <center><button className='ui primary button' style={{ margin: '16px 0' }}>Post</button></center>
+                </div>
+              </form>
+            </Grid.Column> <Grid.Column width={3}> </Grid.Column> </Grid.Row> </Grid>
+        <Footer />
       </div>
+      </div>
+
+
 
 
     );

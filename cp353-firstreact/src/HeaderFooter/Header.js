@@ -39,7 +39,6 @@ export default class Header extends Component {
           <Dropdown text='Find My Owner' pointing className='link item'>
             <Dropdown.Menu>
             <Dropdown.Item icon='paw' name='alltopic' active={activeItem === 'alltopic'} onClick={this.handleItemClick} as={Link} to='/alltopic'>All Topic</Dropdown.Item>
-              <Dropdown.Item icon='paw' name='topic' active={activeItem === 'topic'} onClick={this.handleItemClick} as={Link} to='/topic'>Topic</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item name='newtopic' active={activeItem === 'newtopic'} onClick={this.handleItemClick} as={Link} to='/newtopic' >New Topic</Dropdown.Item>
             </Dropdown.Menu>

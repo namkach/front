@@ -3,7 +3,7 @@ import localStorage from 'localStorage'
 import { request } from 'https';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3005',
+    baseURL: 'http://localhost:3009',
     headers: { 'Content-Type': 'application/json' }
 })
 
@@ -18,12 +18,6 @@ export const login = (username, password) => {
         .catch(error => error.response)
 }
 
-export const find = () => {
-    return axiosInstance.get('api/user/find/'+localStorage.getItem('username'))
-        .then(data => data)
-        .then(response => response.data)
-        .catch(error => error.response)
-}
 
 
 
@@ -31,8 +25,8 @@ export const find = () => {
 
 export const register = (firstname ,lastname ,username,password,email) => {
     const data = {
-        firstname:firstname,
-        lastname:lastname,
+        firstName:firstname,
+        lastName:lastname,
         username: username,
         password: password,
         email:email
@@ -43,34 +37,12 @@ export const register = (firstname ,lastname ,username,password,email) => {
         .catch(error => error.response)
 }
 
-export const editprofile = (firstname ,lastname ,username,password,email) => {
-    const data = {
-        firstname:firstname,
-        lastname:lastname,
-        username: username,
-        password: password,
-        email:email
-    }
 
-    return axiosInstance.put('api/user/editprofile', data)
-        .then(data => data)
-        .catch(error => error.response)
-}
 
-export const publishPost = (title, content) => {
-    const data = {
-        title: title,
-        content: content,
-        user: { username: localStorage.getItem('username') }
-    }
 
-    return axiosInstance.post('api/post/create/', data)
-        .then(data => data)
-        .catch(error => error.response)
-}
 
 export const getAllPosts = () => {
-    return axiosInstance.get('/api/post/all/')
+    return axiosInstance.get('/api/comment/all/'+ localStorage.getItem('topic'))
         .then(response => response.data)
         .catch(error => { throw (error.response) })
 }
@@ -103,6 +75,15 @@ export const getUser= () => {
         .catch(error => { throw (error.response) })
 }
 
+
+
+
+
+
+
+
+/*--------------------------------------------------------------------*/
+
 export const commentTopic = (title ,content ,author) => {
     const data = {
         title:title,
@@ -119,7 +100,7 @@ export const commentTopic = (title ,content ,author) => {
 
 export const newTopic = (title ,content ,author,room) => {
     const data = {
-        title:title,
+        title: title,
         content:content,
         author: author,
         room : room
@@ -136,6 +117,18 @@ export const findtopic = () => {
         .then(response => response.data)
         .catch(error => error.response)
 }
+export const findcomment = () => {
+    return axiosInstance.get('api/comment/id/'+ localStorage.getItem('topic'))
+        .then(data => data)
+        .then(response => response.data)
+        .catch(error => error.response)
+}
+
+export const deleteuser = () => {
+    return axiosInstance.get('api/user/delete/'+ localStorage.getItem('deleteuser'))
+        .then(data => data)
+        .catch(error => error.response)
+}
 
 
 export const getAlltopic = () => {
@@ -143,3 +136,55 @@ export const getAlltopic = () => {
         .then(response => response.data)
         .catch(error => { throw (error.response) })
 }
+
+
+
+export const find = () => {
+    return axiosInstance.get('api/user/find/'+localStorage.getItem('username'))
+        .then(data => data)
+        .then(response => response.data)
+        .catch(error => error.response)
+}
+
+export const getedituser = () => {
+    return axiosInstance.get('api/user/find/'+localStorage.getItem('edituser'))
+        .then(data => data)
+        .then(response => response.data)
+        .catch(error => error.response)
+}
+
+export const getedittopic = () => {
+    return axiosInstance.get('api/topic/find/'+localStorage.getItem('edittopic'))
+        .then(data => data)
+        .then(response => response.data)
+        .catch(error => error.response)
+}
+
+export const publishPost = (title, content,author) => {
+    const data = {
+        title: title,
+        content: content,
+        author: author
+    }
+
+    return axiosInstance.post('api/comment/create/', data)
+        .then(data => data)
+        .catch(error => error.response)
+}
+
+
+export const editprofile = (firstname ,lastname ,username,password,email) => {
+    const data = {
+        firstName:firstname,
+        lastName:lastname,
+        username: username,
+        password: password,
+        email:email
+    }
+
+    return axiosInstance.post('api/user/editprofile', data)
+        .then(data => data)
+        .catch(error => error.response)
+}
+
+/*--------------------------------------------------------------------*/

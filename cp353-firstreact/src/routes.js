@@ -29,8 +29,8 @@ const Routes = () => (
     <Route exact path="/newtopic" component={Newtopic} />
     <Route exact path="/alltopic" component={Alltopic} />
     <Route exact path="/editprofile" component={Editprofile} />
-    <Route exact path="/topic" component={Topic} />
-    <Route exact path="/admin" component={Admin} />
+    <Route exact path="/topic/id" component={Topic} />
+    <Route exact path="/Admin" component={Admin} />
     
 {/* 
     {!localStorage.getItem('username') ? (
